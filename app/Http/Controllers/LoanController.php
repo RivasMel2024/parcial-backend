@@ -16,7 +16,9 @@ class LoanController extends Controller
      */
     public function index()
     {
-        //
+        $loan = Loan::with('book')->paginate(); // el with permite recargar las relaciones de las bases de datos para que estas sean mas sostenibles
+
+        return response()->json(LoanResource::collection($loan));
     }
 
     /**
