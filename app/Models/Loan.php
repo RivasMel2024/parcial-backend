@@ -16,10 +16,10 @@ class Loan extends Model
         'return_at',
     ];
 
-    public function isActive() : Attribute
+    public function isActive(): Attribute
     {
         return Attribute::make(
-            get: fn (): bool => is_null($this->return_at),
+            get: fn () => is_null($this->return_at),
         );
     }
 

@@ -8,29 +8,22 @@ use Illuminate\Http\Request;
 
 class ReturnLoanController extends Controller
 {
+    /**
+     * Handle the incoming request.
+     */
     public function __invoke(Request $request, Loan $loan)
     {
-        
 
-        if(!is_null($loan->return_at)){
-            return response()->json([
-                'message' => 'Este préstamo ya ha sido devuelto.',
-            ], 422);
+        if (! is_null($loan->return_at)) {
+            return response()->json(['message' => 'Loan already returned'], 422);
         }
 
-        $loan->update([
-            'return_at' => now()
-        ]);
-        
-        $book = $loan->book;
-        $book->update([
-            'available_copies' => $book->available_copies + 1,
+        $loan->update(['return_at' => now()]);
+        $loan->book()->update([
+            'available_copies' => $loan->book->available_copies + 1,
             'is_available' => true,
         ]);
 
-        return response()->json([
-            'message' => 'Libro devuelto exitosamente.',
-            'data' => new LoanResource($loan)
-        ]);
+        return response()->json(LoanResource::make($loan));
     }
 }

@@ -18,7 +18,7 @@ class LoanResource extends JsonResource
             "requester_name"=> $this->requester_name,
             "book_id"=> $this->book_id,
             "book"=>BookResource::make($this->whenLoaded("book")),
-            "is_active"=> $this->is_active,
+            "is_active"=> $this->isActive,
             "return_at"=> $this->return_at,
             "created_at"=> $this->created_at,
             "updated_at"=> $this->updated_at,
