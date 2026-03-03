@@ -8,12 +8,18 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+    public function __construct() {}
+
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
         // $books = Book::query();
+
+        $this->authorize('viewAny', Book::class);
+
 
         $books = Book::when($request->has('title'), function ($query) {
             $query->where('title', 'like', '%' . request()->input('title') . '%');
